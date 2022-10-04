@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map Leaflet</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+    />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"></script>
+
+    <style>
+      #map {
+        height: 400px;
+        width: 700px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center">This is a Leaflet Map</h1>
+    <div id="map"></div>
+    <button onclick="getLocation()">Get</button>
+
+    <script>
+      // Load Current Location when page load
+      window.onload = () => {
+        navigator.geolocation.getCurrentPosition(showPosition);
+        showPosition();
+      };
+
+      // Execute Map from position
+      function showPosition(position) {
+        executeMap(position.coords.latitude, position.coords.longitude);
+      }
+
+      // Function for execute into map
+      function executeMap(lat, long) {
+        const zoom = 18;
+        let map = L.map("map").setView([lat, long], zoom);
+
+        const attr = `&copy; <a href="https://www.openstreetmap.org/copyright">Open Street Map</a> contributors`;
+
+        const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+        const tiles = L.tileLayer(tileUrl, { attr });
+        tiles.addTo(map);
+        var marker = L.marker([lat, long]).addTo(map);
+      }
+    </script>
+  </body>
+</html>
